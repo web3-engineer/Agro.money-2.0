@@ -174,4 +174,4 @@ useEffect(() => {
     fetchCprsWithFilters();
   }, [filtroStatus, filtroAgricultor, filtroDataInicio, filtroDataFim, ...]); // Atualiza a busca quando os filtros mudam
 
- // ... Renderizar campos de filtro e paginação
+ 

@@ -41,16 +41,16 @@ app.get('/api/logout', (req, res) => {
 // Inicie o servidor
 const port = 5000; // Ou escolha outra porta
 app.listen(port, () => {
-    console.log(`API rodando em http://localhost:${port}`);
+    console.log(`API rodando em http://localhost:${port;
 });
 const passport = require('./passportConfig'); 
 app.post('/api/login', (req, res, next) => {
-    passport.authenticate('farmer', (err, user, info) => { // Use a estratégia 'farmer'
+    passport.authenticate('farmer', (err, user, info) = // Use a estratégia 'farmer'
         if (err) return next(err);
-        if (!user) return res.status(401).json(info); // Retorna erro de autenticação  
+        if (!user) return res.status(401).json(info); /etorna erro de autenticação  
         req.logIn(user, (err) => {
             if (err) return next(err);
-            return res.json({ msg: 'Login realizado!' }); 
+            return res.json({ msg: 'Login realizado!' }
         });
     })(req, res, next);
 });
@@ -58,27 +58,27 @@ app.post('/api/login', (req, res, next) => {
 
 app.get('/api/profile', (req, res) => {
     if (req.isAuthenticated()) {
-        res.json(req.user); // Retorna as informações do usuário logado
+        res.json(req.user); // Retorna as informações dsuário logado
     } else {
-        res.status(401).json({ message: 'Não autorizado' }); 
+        res.status(401).json({ message: 'Não autorizado); 
     }
 });
 const express = require('express');
 const multer = require('multer'); // Importar o multer
 // ... outras importações
 
-const upload = multer({ /* opções de configuração do multer */ }); // Configurar o destino das imagens
+const upload = multer({ /* opções de configuração do mur */ }); // Configurar o destino das imagens
 
-app.post('/api/send-cpr', upload.single('cprDocument'), async (req, res) => {
+app.post('/api/send-cpr', upload.single('cprDocument'),ync (req, res) => {
     try {
         const { value, areaSize, fundType } = req.body;
         const file = req.file;
 
-        // Lógica para processar os dados enviados (salvar arquivo, armazenar metadados no banco, etc.)
-        res.json({ message: 'CPR enviado com sucesso!' });
+        // Lógica para processar os dados enviados (sal arquivo, armazenar metadados no banco, etc.)
+        res.json({ message: 'CPR enviado com sucesso!' 
     } catch (error) {
         console.error('Erro ao processar CPR:', error);
-        res.status(500).json({ message: 'Ocorreu um erro no servidor' });
+        res.status(500).json({ message: 'Ocorreu um erro servidor' });
     }
 });
 
@@ -87,52 +87,52 @@ app.post('/api/send-cpr', upload.single('cprDocument'), async (req, res) => {
 
 app.get('/api/get-cprs', async (req, res) => {
     try {
-        // Lógica para buscar CPRs relacionados à cooperativa (baseado no usuário da cooperativa logado)
-        const cprs = await CPRModel.find(/* condições de busca */); 
+        // Lógica para buscar CPRs relacionados à coopeiva (baseado no usuário da cooperativa logado)
+        const cprs = await CPRModel.find(/* condições dusca */); 
         res.json(cprs);
     } catch (error) {
         console.error('Erro ao carregar CPRs:', error);
-        res.status(500).json({ message: 'Ocorreu um erro no servidor' });
+        res.status(500).json({ message: 'Ocorreu um erro servidor' });
     }
 });
 
-app.post('/api/forward-cpr/:cprId', async (req, res) => { 
+app.post('/api/forward-cpr/:cprId', async (req, res) =>
     try {
         const { cprId } = req.params;
 
         // Lógica para encaminhar o CPR para o banco:
            // 1. Buscar CPR pelo ID
-           // 2. Atualizar status do CPR (ex: 'enviado_para_banco')
+           // 2. Atualizar status do CPR (ex: 'enviado_a_banco')
            // 3. Salvar alterações
 
-        res.json({ message: 'CPR encaminhado para o banco' });
+        res.json({ message: 'CPR encaminhado para o ban });
     } catch (error) {
-        console.error('Erro ao encaminhar CPR:', error);
-        res.status(500).json({ message: 'Ocorreu um erro no servidor' });
+        console.error('Erro ao encaminhar CPR:', error)
+        res.status(500).json({ message: 'Ocorreu um erro servidor' });
     }
 });
 
 // ... outras rotas e configuração do server
 // ... outras rotas
 
-app.post('/api/forward-cpr/:cprId', async (req, res) => {
+app.post('/api/forward-cpr/:cprId', async (req, res) =>
     try {
         const { cprId } = req.params;
-        const cooperativeId = req.user.id; // Verificar se o usuário logado é da cooperativa
+        const cooperativeId = req.user.id; // Verificar o usuário logado é da cooperativa
 
-        const cpr = await CPRModel.findByIdAndUpdate(cprId, {
+        const cpr = await CPRModel.findByIdAndUpdate(cp, {
             status: 'enviado_para_banco',
             cooperativeId,
         }, { new: true });
 
         if (!cpr) {
-            return res.status(404).json({ message: 'CPR não encontrado' });
+            return res.status(404).json({ message: 'CPRo encontrado' });
         }
 
-        res.json({ message: 'CPR encaminhado para o banco' });
+        res.json({ message: 'CPR encaminhado para o ban });
     } catch (error) {
-        console.error('Erro ao encaminhar CPR:', error);
-        res.status(500).json({ message: 'Ocorreu um erro no servidor' });
+        console.error('Erro ao encaminhar CPR:', error)
+        res.status(500).json({ message: 'Ocorreu um erro servidor' });
     }
 });
 
@@ -141,25 +141,25 @@ app.post('/api/forward-cpr/:cprId', async (req, res) => {
 
 app.get('/api/get-enviados', async (req, res) => {
     try {
-      const cooperativeId = req.user.id; // Busque com base no usuário logado
+      const cooperativeId = req.user.id; // Busque com e no usuário logado
   
       const encaminhados = await CPRModel.find({
         cooperativeId,
         status: 'enviado_para_banco', 
-      }).populate('farmerId', 'username') // Popule com username do agricultor
-        .populate('bankId', 'name'); // Popule com o nome do banco 
+      }).populate('farmerId', 'username') // Popule comername do agricultor
+        .populate('bankId', 'name'); // Popule com o nodo banco 
   
       res.json(encaminhados);
     } catch (error) {
-      console.error('Erro ao carregar enviados:', error);
-      res.status(500).json({ message: 'Ocorreu um erro no servidor' });
+      console.error('Erro ao carregar enviados:', error
+      res.status(500).json({ message: 'Ocorreu um erro servidor' });
     }
   });
   // ... outras rotas
 
 app.get('/api/get-banco', async (req, res) => {
     try {
-        const bankId = req.user.id; // Busque com base no usuário logado
+        const bankId = req.user.id; // Busque com base usuário logado
 
         const cprs = await CPRModel.find({
             bankId,
@@ -167,13 +167,13 @@ app.get('/api/get-banco', async (req, res) => {
 
         res.json(cprs);
     } catch (error) {
-        console.error('Erro ao carregar CPRs para o banco: ', error);
-        res.status(500).json({ message: 'Ocorreu um erro no servidor' });
+        console.error('Erro ao carregar CPRs para o ban ', error);
+        res.status(500).json({ message: 'Ocorreu um erro servidor' });
     }
 });
 
-app.post('/api/approve-cpr/:cprId', async (req, res) => { 
-    // Implemente a lógica para aprovar (Atualizar status)
+app.post('/api/approve-cpr/:cprId', async (req, res) =>
+    // Implemente a lógica para aprovar (Atualizar stat
 });
 
 app.post('/api/reject-cpr/:cprId', async (req, res) => { 
